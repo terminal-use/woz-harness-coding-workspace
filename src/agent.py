@@ -16,10 +16,11 @@ from claude_agent_sdk.types import ResultMessage
 
 from terminaluse.lib import (
     AgentServer,
+    DataPart,
     TaskContext,
     make_logger,
 )
-from terminaluse.types import DataPart, Event, TextPart
+from terminaluse.types import Event, TextPart as SDKTextPart
 
 NOISY_RUNTIME_LOGGERS = (
     "httpx",
@@ -469,7 +470,7 @@ async def handle_create(ctx: TaskContext, params: dict[str, Any]):
 async def handle_event(ctx: TaskContext, event: Event):
     """Handle incoming messages from users."""
     try:
-        if not isinstance(event.content, TextPart):
+        if not isinstance(event.content, SDKTextPart):
             raise ValueError("Only text messages supported.")
         user_message = event.content.text
         logger.info(
