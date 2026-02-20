@@ -19,7 +19,7 @@ from terminaluse.lib import (
     TaskContext,
     make_logger,
 )
-from terminaluse.types import Event, TaskMessageContent_Data, TaskMessageContent_Text
+from terminaluse.types import DataPart, Event, TextPart
 
 NOISY_RUNTIME_LOGGERS = (
     "httpx",
@@ -144,7 +144,7 @@ async def _send_status(ctx: TaskContext, status: AgentStatus, message: str) -> N
         message,
     )
     await ctx.messages.send(
-        TaskMessageContent_Data(author="agent", data=payload),
+        DataPart(data=payload),
     )
 
 
@@ -469,9 +469,9 @@ async def handle_create(ctx: TaskContext, params: dict[str, Any]):
 async def handle_event(ctx: TaskContext, event: Event):
     """Handle incoming messages from users."""
     try:
-        if not isinstance(event.content, TaskMessageContent_Text):
+        if not isinstance(event.content, TextPart):
             raise ValueError("Only text messages supported.")
-        user_message = event.content.content
+        user_message = event.content.text
         logger.info(
             "task_event_received task_id=%s message_chars=%s",
             ctx.task.id,
