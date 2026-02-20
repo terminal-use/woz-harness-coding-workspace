@@ -1,0 +1,17 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "woz-harness-coding-workspace"
+version = "0.1.0"
+description = "WOZ harness agent (Coding Workspace template)"
+requires-python = ">=3.12"
+dependencies = [
+  "terminaluse[observability]",
+  "claude-agent-sdk",
+  "slack_sdk",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src"]
