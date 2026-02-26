@@ -86,12 +86,10 @@ coding_workspace/
 ├── src/                      # Your agent's code
 │   ├── __init__.py
 │   └── agent.py              # Agent server and event handlers
-├── Dockerfile               # Container definition
-├── config.yaml            # Deployment config
-├── dev.ipynb                # Development notebook for testing
-
-└── pyproject.toml          # Dependencies (uv)
-
+├── skills/                   # Claude Code skills
+├── Dockerfile                # Container definition
+├── config.yaml               # Deployment config
+└── pyproject.toml            # Dependencies (uv)
 ```
 
 ## Development
