@@ -1,4 +1,4 @@
-# test/coding-workspace - Claude Agent SDK Template
+# coding-workspace - Claude Agent SDK Template
 
 This template creates an intelligent agent powered by the Claude Agent SDK. Your agent can have multi-turn conversations, read/write files, run commands, and maintain context across interactions.
 
