@@ -59,11 +59,26 @@ async def _bootstrap_github_auth(
     *,
     github_token: str | None,
     github_login: str | None,
+    git_author_email: str | None,
     repo_owner: str | None,
     repo_name: str | None,
     workspace_dir: str,
 ) -> bool:
     """Attempt to set up gh CLI auth. Returns True on success."""
+    name = github_login or "TerminalUse Agent"
+    default_email = (
+        f"{github_login}@users.noreply.github.com"
+        if github_login
+        else "terminaluse-agent@users.noreply.github.com"
+    )
+    email = (
+        git_author_email.strip()
+        if isinstance(git_author_email, str) and git_author_email.strip()
+        else default_email
+    )
+    _run(["git", "config", "user.name", name], cwd=workspace_dir)
+    _run(["git", "config", "user.email", email], cwd=workspace_dir)
+
     if not github_token:
         logger.warning("no_github_token task_id=%s", ctx.task.id)
         return False
@@ -99,14 +114,6 @@ async def _bootstrap_github_auth(
             )
             return False
 
-    name = github_login or "TerminalUse Agent"
-    email = (
-        f"{github_login}@users.noreply.github.com"
-        if github_login
-        else "terminaluse-agent@users.noreply.github.com"
-    )
-    _run(["git", "config", "user.name", name], cwd=workspace_dir)
-    _run(["git", "config", "user.email", email], cwd=workspace_dir)
     return True
 
 
@@ -136,6 +143,7 @@ async def _ensure_valid_github_token(
         ctx,
         github_token=token,
         github_login=_task_param_str(ctx, "github_login"),
+        git_author_email=_task_param_str(ctx, "git_author_email"),
         repo_owner=_task_param_str(ctx, "repo_owner"),
         repo_name=_task_param_str(ctx, "repo_name"),
         workspace_dir=workspace_dir,

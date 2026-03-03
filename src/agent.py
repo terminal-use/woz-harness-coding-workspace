@@ -69,6 +69,7 @@ async def handle_create(ctx: TaskContext, params: dict[str, Any]):
             ctx,
             github_token=github_token,
             github_login=params.get("github_login"),
+            git_author_email=params.get("git_author_email"),
             repo_owner=params.get("repo_owner"),
             repo_name=params.get("repo_name"),
             workspace_dir=WORKSPACE_DIR,
